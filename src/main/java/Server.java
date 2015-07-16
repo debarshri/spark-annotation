@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.pack.AppInjector;
 import spark.Route;
+import spark.Spark;
 
 import java.io.IOException;
 import java.util.Set;
@@ -21,9 +22,10 @@ public class Server {
 
         Injector injector = Guice.createInjector(new AppInjector());
 
+        Spark.setPort(80);
         SparkWebFramekwork.startWithRoutesAt("org.pack");
-        SparkWebFramekwork.startWithRoutesAt("org.pack",applicationContext);
-        SparkWebFramekwork.startWithRoutesAt("org.pack",test);
-        SparkWebFramekwork.startWithRoutesAt("org.pack",injector);
+        //SparkWebFramekwork.startWithRoutesAt("org.pack",applicationContext);
+        //SparkWebFramekwork.startWithRoutesAt("org.pack",test);
+        //SparkWebFramekwork.startWithRoutesAt("org.pack",injector);
     }
 }
