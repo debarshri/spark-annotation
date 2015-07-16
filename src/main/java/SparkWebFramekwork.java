@@ -1,3 +1,4 @@
+import com.google.inject.Injector;
 import org.pack.SparkUrl;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
@@ -18,9 +19,7 @@ import java.util.Set;
 
 public class SparkWebFramekwork {
     public static void startWithRoutesAt(String pack) throws ClassNotFoundException, NoSuchMethodException, IOException, IllegalAccessException, InstantiationException {
-
         Set<Class<?>> typesAnnotatedWith = getClasses(pack);
-
         for(Class<?> aClass : typesAnnotatedWith)
         {
             Annotation[] annotations = aClass.getDeclaredAnnotations();
@@ -73,6 +72,95 @@ public class SparkWebFramekwork {
             if(method.equalsIgnoreCase("GET"))
             {
                 Spark.get(annotation.path(), (Route) applicationContext.getBeansOfType(aClass));
+            }
+        }
+    }
+
+    public static void startWithRoutesAt(String pack, Set<Route> routes) {
+
+        Set<Class<?>> classes = getClasses(pack);
+
+        for(Class<?> aClass : classes)
+        {
+            Annotation[] annotations = aClass.getDeclaredAnnotations();
+
+            for(Annotation annotation : annotations)
+            {
+                System.out.println(annotation);
+            }
+
+            SparkUrl annotation = aClass.getAnnotation(SparkUrl.class);
+
+            String method = annotation.method();
+
+            if(method.equalsIgnoreCase("GET"))
+            {
+                for(Route route : routes)
+                {
+                    if(route.getClass().equals(aClass))
+                    {
+                        Spark.get(annotation.path(), route);
+                    }
+                }
+            }
+            else if(method.equalsIgnoreCase("POST"))
+            {
+                for(Route route : routes) {
+                    if (route.getClass().equals(aClass)) {
+                        Spark.post(annotation.path(), route);
+                    }
+                }
+            }
+            else if(method.equalsIgnoreCase("PUT"))
+            {
+                for(Route route : routes) {
+                    if (route.getClass().equals(aClass)) {
+                        Spark.put(annotation.path(), route);
+                    }
+                }
+            }
+            else if(method.equalsIgnoreCase("DELETE"))
+            {
+                for(Route route : routes) {
+                    if (route.getClass().equals(aClass)) {
+                        Spark.delete(annotation.path(),route);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void startWithRoutesAt(String pack, Injector injector) {
+        Set<Class<?>> classes = getClasses(pack);
+
+        for(Class<?> aClass : classes)
+        {
+            Annotation[] annotations = aClass.getDeclaredAnnotations();
+
+            for(Annotation annotation : annotations)
+            {
+                System.out.println(annotation);
+            }
+
+            SparkUrl annotation = aClass.getAnnotation(SparkUrl.class);
+
+            String method = annotation.method();
+
+            if(method.equalsIgnoreCase("GET"))
+            {
+              Spark.get(annotation.path(),(Route)injector.getInstance(aClass));
+            }
+            else if(method.equalsIgnoreCase("POST"))
+            {
+                Spark.post(annotation.path(), (Route) injector.getInstance(aClass));
+            }
+            else if(method.equalsIgnoreCase("PUT"))
+            {
+                Spark.put(annotation.path(), (Route) injector.getInstance(aClass));
+            }
+            else if(method.equalsIgnoreCase("DELETE"))
+            {
+                Spark.delete(annotation.path(), (Route) injector.getInstance(aClass));
             }
         }
     }
