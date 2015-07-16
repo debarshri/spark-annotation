@@ -73,6 +73,18 @@ public class SparkWebFramekwork {
             {
                 Spark.get(annotation.path(), (Route) applicationContext.getBeansOfType(aClass));
             }
+            else if(method.equalsIgnoreCase("POST"))
+            {
+                Spark.post(annotation.path(), (Route) applicationContext.getBeansOfType(aClass));
+            }
+            else if(method.equalsIgnoreCase("PUT"))
+            {
+                Spark.put(annotation.path(), (Route) applicationContext.getBeansOfType(aClass));
+            }
+            else if(method.equalsIgnoreCase("DELETE"))
+            {
+                Spark.delete(annotation.path(), (Route) applicationContext.getBeansOfType(aClass));
+            }
         }
     }
 
@@ -123,7 +135,7 @@ public class SparkWebFramekwork {
             {
                 for(Route route : routes) {
                     if (route.getClass().equals(aClass)) {
-                        Spark.delete(annotation.path(),route);
+                        Spark.delete(annotation.path(), route);
                     }
                 }
             }
