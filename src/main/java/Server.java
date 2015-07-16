@@ -24,8 +24,8 @@ public class Server {
 
         Spark.setPort(80);
         SparkWebFramekwork.startWithRoutesAt("org.pack");
-        //SparkWebFramekwork.startWithRoutesAt("org.pack",applicationContext);
-        //SparkWebFramekwork.startWithRoutesAt("org.pack",test);
-        //SparkWebFramekwork.startWithRoutesAt("org.pack",injector);
+        SparkWebFramekwork.startWithRoutesAt("org.pack",applicationContext);
+        SparkWebFramekwork.startWithRoutesAt("org.pack",test);
+        SparkWebFramekwork.startWithRoutesAt("org.pack",injector);
     }
 }

@@ -5,8 +5,9 @@ import spark.Response;
 import spark.Route;
 
 @SparkUrl(
-        path = "/",
-        method = "GET")
+            path = "/",
+            method = "GET"
+)
 public class SparkAnonTest implements Route {
 
     @Override
